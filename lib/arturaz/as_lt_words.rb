@@ -82,8 +82,13 @@ module Arturaz
   
     module DateExtensions
       module InstanceMethods
-        def to_lt_words
-          "%04d m. %s %02d d." % [year, Time::LT_MONTHS[month - 1], day]
+        # Gives Lithuanian representation of Date. If passed 
+        # :with_week_day => true also adds what weekday is it.
+        def to_lt_words(options={})
+          str = "%04d m. %s %02d d." % [year, Time::LT_MONTHS[month - 1], day]
+          str += ", %s" % Date::DAYNAMES[wday].downcase \
+            if options[:with_week_day]
+          str
         end
       end
     end
