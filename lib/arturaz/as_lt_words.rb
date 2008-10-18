@@ -7,14 +7,23 @@ module Arturaz
         # * 1, 21, 31, 41...
         # * 0, 10..20, 30, 40...
         # * everything else
+        #
+        # You can provide custom strings where %d will be replaced by
+        # your number. Also you MUST escape % by using %%.
         def as_lt_words(ones, tens, plural)
           last = self - (self / 10) * 10
           if last == 0 || (10..20).include?(self)
-            "%d #{tens}" % self
+            str = tens
           elsif last == 1
-            "%d #{ones}" % self
+            str = ones
           else
-            "%d #{plural}" % self
+            str = plural
+          end
+          
+          if str.include?("%d")
+            str % self
+          else
+            "%d #{str}" % self
           end
         end
 
