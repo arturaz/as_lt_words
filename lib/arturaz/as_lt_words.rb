@@ -5,17 +5,20 @@ module Arturaz
         # Returns _self_ as lithuanian string.
         # 3 arguments used for:
         # * 1, 21, 31, 41...
-        # * 0, 10..20, 30, 40...
+        # * 10..20, 30, 40...
         # * everything else
+        # * 0 items. Uses tens for it if not supplied
         #
         # You can provide custom strings where %d will be replaced by
         # your number. Also you MUST escape % by using %%.
         #
         # If you want to use custom strings but there is no %d in them,
         # you must pass :custom => true as last argument.
-        def as_lt_words(ones, tens, plural, options={})          
+        def as_lt_words(ones, tens, plural, zeroes=nil, options={})          
           last = self - (self / 10) * 10
-          if last == 0 || (10..20).include?(self)
+          if self == 0 and not zeroes.nil?
+            str = zeroes
+          elsif last == 0 || (10..20).include?(self)
             str = tens
           elsif last == 1
             str = ones
